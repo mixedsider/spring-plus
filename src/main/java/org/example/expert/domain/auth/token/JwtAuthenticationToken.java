@@ -1,5 +1,7 @@
 package org.example.expert.domain.auth.token;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.annotation.Auth;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

@@ -19,13 +19,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @RestController
 @RequiredArgsConstructor
 public class TodoController {
 
-    private static final String DEFAULT_START_DATE = "1999-01-01T00:00:00";
-    private static final String DEFAULT_END_DATE = "2999-12-31T23:59:59";
+    private static final String DEFAULT_START_DATE = "1999-01-01";
+    private static final String DEFAULT_END_DATE = "2999-12-31";
 
     private final TodoService todoService;
 
@@ -39,13 +40,13 @@ public class TodoController {
 
     @GetMapping("/todos")
     public ResponseEntity<Page<TodoResponse>> getTodos(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String weather,
-            @RequestParam(required = false, defaultValue = DEFAULT_START_DATE) LocalDateTime startDate,
-            @RequestParam(required = false, defaultValue = DEFAULT_END_DATE) LocalDateTime endDate
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(name = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(name = "weather", required = false) String weather,
+            @RequestParam(name = "startDate", required = false, defaultValue = DEFAULT_START_DATE) LocalDate startDate,
+            @RequestParam(name = "endDate", required = false, defaultValue = DEFAULT_END_DATE) LocalDate endDate
             ) {
-        return ResponseEntity.ok(todoService.getTodos(page, size, weather, startDate, endDate));
+        return ResponseEntity.ok(todoService.getTodos(page, size, weather, LocalDateTime.of(startDate, LocalTime.MIN), LocalDateTime.of(endDate, LocalTime.MAX)));
     }
 
     @GetMapping("/todos/{todoId}")

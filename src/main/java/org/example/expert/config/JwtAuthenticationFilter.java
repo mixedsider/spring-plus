@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.expert.domain.auth.token.JwtAuthenticationToken;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.user.enums.UserRole;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -41,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 Claims claims = jwtUtil.extractClaims(jwt);
 
-                if(SecurityContextHolder.getContext().getAuthentication() == null ) {
+                if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     setAuthentication(claims);
                 }
 
@@ -70,6 +72,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         AuthUser authUser = new AuthUser(userId, email, nickname, userRole);
         JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(authUser);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authenticationToken);
     }
 }

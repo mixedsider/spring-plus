@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.expert.domain.auth.token.JwtAuthenticationToken;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.user.enums.UserRole;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

@@ -1,14 +1,15 @@
 package org.example.expert.domain.user.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.expert.domain.common.annotation.Auth;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable long userId) {
+    public ResponseEntity<UserResponse> getUser(@PathVariable(name = "userId") long userId) {
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
@@ -26,5 +27,22 @@ public class UserController {
             @AuthenticationPrincipal AuthUser authUser,
             @RequestBody UserChangePasswordRequest userChangePasswordRequest) {
         userService.changePassword(authUser.getId(), userChangePasswordRequest);
+    }
+
+    @PutMapping("/users/images")
+    public ResponseEntity<Void> uploadFile(
+            @AuthenticationPrincipal AuthUser authUser,
+            @RequestParam(name = "file") MultipartFile file
+    ) {
+        userService.updateProfileImage(authUser.getId(), file);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/users/images")
+    public ResponseEntity<Void> deleteFile(
+            @AuthenticationPrincipal AuthUser authUser
+    ) {
+        userService.deleteProfileImage(authUser.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

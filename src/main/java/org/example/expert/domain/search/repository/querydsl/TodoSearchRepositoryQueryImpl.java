@@ -5,7 +5,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.search.dto.response.TodoSearchResponse;
-import org.example.expert.domain.todo.entity.Todo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +14,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.example.expert.domain.comment.entity.QComment.comment;
-import static org.example.expert.domain.manager.entity.QManager.manager;
 import static org.example.expert.domain.todo.entity.QTodo.todo;
 
 

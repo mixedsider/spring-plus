@@ -4,3 +4,11 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_USER_PASSWORD}
+
+server:
+  ssl:
+    key-store: classpath:${SSL_FILE}
+    key-store-type: PKCS12
+    key-store-password: ${SSL_PASSWORD}
+    key-password: ${SSL_PASSWORD}
+  port: ${PORT}

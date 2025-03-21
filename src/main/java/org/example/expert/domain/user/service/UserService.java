@@ -8,6 +8,7 @@ import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
 import org.example.expert.domain.user.dto.response.UserResponse;
+import org.example.expert.domain.user.dto.response.UserSearchResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -98,42 +100,46 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public String findUserNameWithJpa(String name) {
+    public UserSearchResponse findUserNameWithJpa(String name) {
         LocalDateTime start = LocalDateTime.now();
-        userRepository.findByNickname(name);
+        User user = userRepository.findByNickname(name);
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        return result.toString();
+        return UserSearchResponse.of(user, result.toString());
     }
 
     @Transactional(readOnly = true)
-    public String findUserNameWithQuerydsl(String name) {
+    public UserSearchResponse findUserNameWithQuerydsl(String name) {
         LocalDateTime start = LocalDateTime.now();
-        userRepository.findByNicknameWithQueryDsl(name);
+        User user = userRepository.findByNicknameWithQueryDsl(name);
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        return result.toString();
+        return UserSearchResponse.of(user, result.toString());
     }
 
     @Transactional(readOnly = true)
-    public String findUserNameWithJpaIndex(String name) {
+    public List<UserSearchResponse> findUserNameWithJpaIndex(String name) {
         LocalDateTime start = LocalDateTime.now();
-        userRepository.findByNicknameIndex(name);
+        List<User> users = userRepository.findByNicknameIndex(name);
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        return result.toString();
+        return users.stream()
+                .map(user -> UserSearchResponse.of(user, result.toString()))
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public String findUserNameWithQuerydslIndex(String name) {
+    public List<UserSearchResponse> findUserNameWithQuerydslIndex(String name) {
         LocalDateTime start = LocalDateTime.now();
-        userRepository.findByNicknameWithQueryDslIndex(name);
+        List<User> users = userRepository.findByNicknameWithQueryDslIndex(name);
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        return result.toString();
+        return users.stream()
+                .map(user -> UserSearchResponse.of(user, result.toString()))
+                .toList();
     }
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
 import org.example.expert.domain.user.dto.response.UserResponse;
+import org.example.expert.domain.user.dto.response.UserSearchResponse;
 import org.example.expert.domain.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,26 +52,26 @@ public class UserController {
 
 
     @GetMapping("/users/jpa")
-    public ResponseEntity<String> findUserNameWithJpa(@RequestParam(name = "name") String name) {
-        String response = userService.findUserNameWithJpa(name);
+    public ResponseEntity<UserSearchResponse> findUserNameWithJpa(@RequestParam(name = "name") String name) {
+        UserSearchResponse response = userService.findUserNameWithJpa(name);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/users/querydsl")
-    public ResponseEntity<String> findUserNameWithQuerydsl(@RequestParam(name = "name") String name) {
-        String response = userService.findUserNameWithQuerydsl(name);
+    public ResponseEntity<UserSearchResponse> findUserNameWithQuerydsl(@RequestParam(name = "name") String name) {
+        UserSearchResponse response = userService.findUserNameWithQuerydsl(name);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/users/index/jpa")
-    public ResponseEntity<String> findUserNameWithJpaIndex(@RequestParam(name = "name") String name) {
-        String response = userService.findUserNameWithJpaIndex(name);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<UserSearchResponse>> findUserNameWithJpaIndex(@RequestParam(name = "name") String name) {
+        List<UserSearchResponse> responses = userService.findUserNameWithJpaIndex(name);
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
     @GetMapping("/users/index/querydsl")
-    public ResponseEntity<String> findUserNameWithQuerydslIndex(@RequestParam(name = "name") String name) {
-        String response = userService.findUserNameWithQuerydslIndex(name);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<UserSearchResponse>> findUserNameWithQuerydslIndex(@RequestParam(name = "name") String name) {
+        List<UserSearchResponse> responses = userService.findUserNameWithQuerydslIndex(name);
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 }

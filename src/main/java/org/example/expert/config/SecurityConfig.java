@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(PathRequest.toH2Console()).permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())

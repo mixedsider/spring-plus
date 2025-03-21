@@ -11,6 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -43,6 +45,19 @@ public class UserController {
             @AuthenticationPrincipal AuthUser authUser
     ) {
         userService.deleteProfileImage(authUser.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping("/users/jpa")
+    public ResponseEntity<Void> findUserNameWithJpa(@RequestParam(name = "name") String name) {
+        userService.findUserNameWithJpa(name);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/users/querydsl")
+    public ResponseEntity<Void> findUserNameWithQuerydsl(@RequestParam(name = "name") String name) {
+        userService.findUserNameWithQuerydsl(name);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

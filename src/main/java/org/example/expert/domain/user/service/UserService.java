@@ -3,6 +3,7 @@ package org.example.expert.domain.user.service;
 import io.awspring.cloud.s3.ObjectMetadata;
 import io.awspring.cloud.s3.S3Operations;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
@@ -21,11 +22,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-
+@Slf4j
 public class UserService {
 
     private static final String BUCKET = System.getenv("BUCKEY_NAME");
@@ -93,5 +95,25 @@ public class UserService {
                 !userChangePasswordRequest.getNewPassword().matches(".*[A-Z].*")) {
             throw new InvalidRequestException("새 비밀번호는 8자 이상이어야 하고, 숫자와 대문자를 포함해야 합니다.");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public void findUserNameWithJpa(String name) {
+        LocalDateTime start = LocalDateTime.now();
+        userRepository.findByNickname(name);
+        LocalDateTime end = LocalDateTime.now();
+
+        Duration result = Duration.between(start, end);
+        log.error(result.toString());
+    }
+
+    @Transactional(readOnly = true)
+    public void findUserNameWithQuerydsl(String name) {
+        LocalDateTime start = LocalDateTime.now();
+        userRepository.findByNicknameWithQueryDsl(name);
+        LocalDateTime end = LocalDateTime.now();
+
+        Duration result = Duration.between(start, end);
+        log.error(result.toString());
     }
 }

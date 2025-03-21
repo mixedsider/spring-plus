@@ -50,26 +50,26 @@ public class UserController {
 
 
     @GetMapping("/users/jpa")
-    public ResponseEntity<Void> findUserNameWithJpa(@RequestParam(name = "name") String name) {
-        userService.findUserNameWithJpa(name);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> findUserNameWithJpa(@RequestParam(name = "name") String name) {
+        String response = userService.findUserNameWithJpa(name);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/users/querydsl")
-    public ResponseEntity<Void> findUserNameWithQuerydsl(@RequestParam(name = "name") String name) {
-        userService.findUserNameWithQuerydsl(name);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> findUserNameWithQuerydsl(@RequestParam(name = "name") String name) {
+        String response = userService.findUserNameWithQuerydsl(name);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/users/index/jpa")
-    public ResponseEntity<Void> findUserNameWithJpaIndex(@RequestParam(name = "name") String name) {
-        userService.findUserNameWithJpaIndex(name);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> findUserNameWithJpaIndex(@RequestParam(name = "name") String name) {
+        String response = userService.findUserNameWithJpaIndex(name);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/users/index/querydsl")
-    public ResponseEntity<Void> findUserNameWithQuerydslIndex(@RequestParam(name = "name") String name) {
-        userService.findUserNameWithQuerydslIndex(name);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> findUserNameWithQuerydslIndex(@RequestParam(name = "name") String name) {
+        String response = userService.findUserNameWithQuerydslIndex(name);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

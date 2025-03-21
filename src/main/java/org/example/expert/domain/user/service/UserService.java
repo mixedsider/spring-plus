@@ -98,42 +98,42 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public void findUserNameWithJpa(String name) {
+    public String findUserNameWithJpa(String name) {
         LocalDateTime start = LocalDateTime.now();
         userRepository.findByNickname(name);
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        log.info(result.toString());
+        return result.toString();
     }
 
     @Transactional(readOnly = true)
-    public void findUserNameWithQuerydsl(String name) {
+    public String findUserNameWithQuerydsl(String name) {
         LocalDateTime start = LocalDateTime.now();
         userRepository.findByNicknameWithQueryDsl(name);
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        log.info(result.toString());
+        return result.toString();
     }
 
     @Transactional(readOnly = true)
-    public void findUserNameWithJpaIndex(String name) {
+    public String findUserNameWithJpaIndex(String name) {
         LocalDateTime start = LocalDateTime.now();
         userRepository.findByNicknameIndex(name);
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        log.info(result.toString());
+        return result.toString();
     }
 
     @Transactional(readOnly = true)
-    public void findUserNameWithQuerydslIndex(String name) {
+    public String findUserNameWithQuerydslIndex(String name) {
         LocalDateTime start = LocalDateTime.now();
         userRepository.findByNicknameWithQueryDslIndex(name);
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        log.info(result.toString());
+        return result.toString();
     }
 }

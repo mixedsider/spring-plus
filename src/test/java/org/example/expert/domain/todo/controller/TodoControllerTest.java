@@ -8,9 +8,11 @@ import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -21,11 +23,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@MockBean(JpaMetamodelMappingContext.class)
 @WebMvcTest(TodoController.class)
 class TodoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private JwtUtil jwtUtil;
 
     @MockBean
     private TodoService todoService;
@@ -35,7 +41,7 @@ class TodoControllerTest {
         // given
         long todoId = 1L;
         String title = "title";
-        AuthUser authUser = new AuthUser(1L, "email", UserRole.USER);
+        AuthUser authUser = new AuthUser(1L, "email", "nickname" ,UserRole.ROLE_ADMIN);
         User user = User.fromAuthUser(authUser);
         UserResponse userResponse = new UserResponse(user.getId(), user.getEmail());
         TodoResponse response = new TodoResponse(
@@ -69,9 +75,9 @@ class TodoControllerTest {
 
         // then
         mockMvc.perform(get("/todos/{todoId}", todoId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(HttpStatus.OK.name()))
-                .andExpect(jsonPath("$.code").value(HttpStatus.OK.value()))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.name()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.message").value("Todo not found"));
     }
 }

@@ -38,3 +38,8 @@ out/
 
 ### properties ###
 *.properties
+
+
+### .env ###
+.env
+.env.*

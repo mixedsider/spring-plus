@@ -3,6 +3,7 @@ package org.example.expert.domain.user.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.entity.Timestamped;
 import org.example.expert.domain.user.enums.UserRole;
@@ -10,7 +11,9 @@ import org.example.expert.domain.user.enums.UserRole;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users", indexes = {
+        @Index(name = "idx_nickname", columnList = "nickname")
+})
 public class User extends Timestamped {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,20 +24,28 @@ public class User extends Timestamped {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    public User(String email, String password, UserRole userRole) {
+    @Column(nullable = false)
+//    @Column(unique = true)
+    private String nickname;
+
+    private String profileImage;
+
+    public User(String email, String password, String nickname, UserRole userRole) {
         this.email = email;
         this.password = password;
         this.userRole = userRole;
+        this.nickname = nickname;
     }
 
-    private User(Long id, String email, UserRole userRole) {
+    private User(Long id, String email, String nickname, UserRole userRole) {
         this.id = id;
         this.email = email;
+        this.nickname = nickname;
         this.userRole = userRole;
     }
 
     public static User fromAuthUser(AuthUser authUser) {
-        return new User(authUser.getId(), authUser.getEmail(), authUser.getUserRole());
+        return new User(authUser.getId(), authUser.getEmail(), authUser.getNickname(), authUser.getUserRole());
     }
 
     public void changePassword(String password) {
@@ -43,5 +54,9 @@ public class User extends Timestamped {
 
     public void updateRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public void updateProfileImage(String imageUrl) {
+        this.profileImage = imageUrl;
     }
 }

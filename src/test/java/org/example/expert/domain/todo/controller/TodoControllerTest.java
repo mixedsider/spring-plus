@@ -31,6 +31,9 @@ class TodoControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
     private TodoService todoService;
 
     @Test

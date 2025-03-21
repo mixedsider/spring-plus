@@ -1,10 +1,11 @@
 package org.example.expert.domain.user.service;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import org.example.expert.ExpertApplication;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
@@ -16,15 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-@ActiveProfiles("dev")
+@ActiveProfiles({"dev", "default"})
 @Transactional
-@Commit
 class UserServiceTest {
 
     @Autowired
     private UserRepository userRepository;
 
-    @PersistenceContext
+    @Autowired
     private EntityManager em;
 
     @Test
@@ -64,8 +64,7 @@ class UserServiceTest {
             ReflectionTestUtils.setField(user, "nickname", nickname);
             users.add(user);
             if (users.size() >= batchSize) {
-                userRepository.saveAll(users);
-                userRepository.flush();
+                userRepository.saveAllAndFlush(users);
                 em.clear();
                 users.clear();
             }

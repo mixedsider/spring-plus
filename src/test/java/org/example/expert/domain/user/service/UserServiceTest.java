@@ -1,13 +1,11 @@
 package org.example.expert.domain.user.service;
 
 import jakarta.persistence.EntityManager;
-import org.example.expert.ExpertApplication;
 import org.example.expert.domain.user.entity.User;
-import org.example.expert.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -17,12 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-@ActiveProfiles({"dev", "default"})
+@ActiveProfiles({"dev"})
 @Transactional
+@Commit
 class UserServiceTest {
 
+    private static final int BATCH_SIZE = 1000;
+
     @Autowired
-    private UserRepository userRepository;
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private EntityManager em;
@@ -45,9 +46,10 @@ class UserServiceTest {
         String[] words = word.split(",");
 
         int total = 1000000;
-        int batchSize = 1000;
 
         List<User> users = new ArrayList<>();
+
+        String sql = "INSERT INTO users (email, nickname) VALUES (?,?)";
 
         for( int i = 0; i < total; i++ ) {
             String email = String.format("testEmail%d@testemail.com", i);
@@ -63,18 +65,11 @@ class UserServiceTest {
             ReflectionTestUtils.setField(user, "email", email);
             ReflectionTestUtils.setField(user, "nickname", nickname);
             users.add(user);
-            if (users.size() >= batchSize) {
-                userRepository.saveAllAndFlush(users);
-                em.clear();
-                users.clear();
-            }
         }
 
-        // 남은 데이터 처리
-        if (!users.isEmpty()) {
-            userRepository.saveAll(users);
-            userRepository.flush();
-            em.clear();
-        }
+        jdbcTemplate.batchUpdate(sql, users, BATCH_SIZE, ((ps, argument) -> {
+            ps.setString(1, argument.getEmail());
+            ps.setString(2, argument.getNickname());
+        }));
     }
 }

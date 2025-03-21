@@ -16,14 +16,16 @@ spring:
         static: ap-northeast-2
       s3:
         bucket: ${BUCKEY_NAME}
+        region: ${REGION}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: true
         format_sql: true
         use_sql_comments: true
+        dialect: org.hibernate.dialect.H2Dialect
 
 
 management:

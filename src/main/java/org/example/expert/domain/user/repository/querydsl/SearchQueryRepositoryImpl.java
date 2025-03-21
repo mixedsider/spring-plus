@@ -1,7 +1,6 @@
-package org.example.expert.domain.user.repository;
+package org.example.expert.domain.user.repository.querydsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.user.entity.User;
 

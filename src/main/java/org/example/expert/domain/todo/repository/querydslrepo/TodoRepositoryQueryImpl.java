@@ -1,4 +1,4 @@
-package org.example.expert.domain.todo.repository.querydsl;
+package org.example.expert.domain.todo.repository.querydslrepo;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

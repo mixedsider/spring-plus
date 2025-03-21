@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.expert.domain.auth.token.JwtAuthenticationToken;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.user.enums.UserRole;
 import org.springframework.security.core.context.SecurityContext;
@@ -63,6 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    // AuthUser ArgumentResolver 역할
     private void setAuthentication(Claims claims) {
         Long userId = Long.valueOf(claims.getSubject());
         String email = claims.get("email", String.class);

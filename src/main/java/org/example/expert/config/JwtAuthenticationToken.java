@@ -1,4 +1,4 @@
-package org.example.expert.domain.auth.token;
+package org.example.expert.config;
 
 import org.example.expert.domain.common.dto.AuthUser;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

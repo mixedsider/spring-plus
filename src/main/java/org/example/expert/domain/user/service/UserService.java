@@ -33,7 +33,7 @@ import java.util.List;
 public class UserService {
 
     private static final String BUCKET = System.getenv("BUCKEY_NAME");
-
+    // S3 연결용
     private final S3Operations s3Operations;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

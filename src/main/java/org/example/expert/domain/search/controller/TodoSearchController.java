@@ -22,6 +22,7 @@ public class TodoSearchController {
 
     @GetMapping("/v1/search")
     public ResponseEntity<Page<TodoSearchResponse>> searchTodo(
+            // todo . 나중에 page 객체 만들어서 전달 받기
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
             @RequestParam(required = false) String title,

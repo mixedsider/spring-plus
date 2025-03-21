@@ -33,6 +33,8 @@ public class UserController {
         userService.changePassword(authUser.getId(), userChangePasswordRequest);
     }
 
+
+    // AWS S3
     @PutMapping("/users/images")
     public ResponseEntity<Void> uploadFile(
             @AuthenticationPrincipal AuthUser authUser,
@@ -51,6 +53,8 @@ public class UserController {
     }
 
 
+    // 대용량 데이터
+    // 각각 JPA, QueryDSL 테스트 용
     @GetMapping("/users/jpa")
     public ResponseEntity<UserSearchResponse> findUserNameWithJpa(@RequestParam(name = "name") String name) {
         UserSearchResponse response = userService.findUserNameWithJpa(name);

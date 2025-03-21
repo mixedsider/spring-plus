@@ -1,4 +1,4 @@
-package org.example.expert.domain.todo.repository.querydsl;
+package org.example.expert.domain.todo.repository.querydslrepo;
 
 import org.example.expert.domain.todo.entity.Todo;
 

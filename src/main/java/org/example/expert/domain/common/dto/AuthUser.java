@@ -25,6 +25,7 @@ public class AuthUser {
     }
 
 
+    // userrole -> grantedAutority 변경
     public UserRole getUserRole() {
         return UserRole.of(authorities.stream().findFirst().orElseThrow(
                 RuntimeException::new

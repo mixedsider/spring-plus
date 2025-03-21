@@ -1,4 +1,4 @@
-package org.example.expert.domain.user.repository;
+package org.example.expert.domain.user.repository.querydsl;
 
 import org.example.expert.domain.user.entity.User;
 

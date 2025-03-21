@@ -35,7 +35,8 @@ public class ManagerService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ManagerSaveResponse saveManager(AuthUser authUser, long todoId, ManagerSaveRequest managerSaveRequest) {
-
+        // 로그부터 남김
+        // 각각의 트랜잭션은 각각 시행됨
         Log newlog = new Log(authUser.getId(), managerSaveRequest.getManagerUserId(), todoId);
         logRepository.save(newlog);
 

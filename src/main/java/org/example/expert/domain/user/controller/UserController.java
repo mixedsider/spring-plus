@@ -60,4 +60,16 @@ public class UserController {
         userService.findUserNameWithQuerydsl(name);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/users/index/jpa")
+    public ResponseEntity<Void> findUserNameWithJpaIndex(@RequestParam(name = "name") String name) {
+        userService.findUserNameWithJpaIndex(name);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/users/index/querydsl")
+    public ResponseEntity<Void> findUserNameWithQuerydslIndex(@RequestParam(name = "name") String name) {
+        userService.findUserNameWithQuerydslIndex(name);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

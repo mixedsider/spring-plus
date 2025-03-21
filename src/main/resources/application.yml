@@ -2,6 +2,8 @@ server:
   port: 8080
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
   servlet:
     multipart:
       enabled: true
@@ -13,19 +15,14 @@ spring:
         access-key: ${ACCESS_KEY}
         secret-key: ${PRIVATE_ACCESS_KEY}
       region:
-        static: ap-northeast-2
+        static: ${STATIC_REGION}
       s3:
         bucket: ${BUCKEY_NAME}
-        region: ${REGION}
+        region: ${S3REGION}
   jpa:
     hibernate:
       ddl-auto: none
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-        use_sql_comments: true
-        dialect: org.hibernate.dialect.H2Dialect
+    open-in-view: false
 
 
 management:

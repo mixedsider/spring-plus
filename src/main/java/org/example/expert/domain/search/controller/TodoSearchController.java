@@ -22,12 +22,12 @@ public class TodoSearchController {
 
     @GetMapping("/v1/search")
     public ResponseEntity<Page<TodoSearchResponse>> searchTodo(
-            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(name = "size", required = false, defaultValue = "10") int size,
-            @RequestParam(name = "title", required = false) String title,
-            @RequestParam(name = "startDate", required = false) LocalDate startDate,
-            @RequestParam(name = "endDate", required = false) LocalDate endDate,
-            @RequestParam(name = "nickname", required = false) String nickname
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "10") int size,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate,
+            @RequestParam(required = false) String nickname
     ) {
         Page<TodoSearchResponse> searched = todoSearchService.search(page, size, title, startDate, endDate, nickname);
         return new ResponseEntity<>(searched, HttpStatus.OK);

@@ -104,7 +104,7 @@ public class UserService {
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        log.error(result.toString());
+        log.info(result.toString());
     }
 
     @Transactional(readOnly = true)
@@ -114,6 +114,26 @@ public class UserService {
         LocalDateTime end = LocalDateTime.now();
 
         Duration result = Duration.between(start, end);
-        log.error(result.toString());
+        log.info(result.toString());
+    }
+
+    @Transactional(readOnly = true)
+    public void findUserNameWithJpaIndex(String name) {
+        LocalDateTime start = LocalDateTime.now();
+        userRepository.findByNicknameIndex(name);
+        LocalDateTime end = LocalDateTime.now();
+
+        Duration result = Duration.between(start, end);
+        log.info(result.toString());
+    }
+
+    @Transactional(readOnly = true)
+    public void findUserNameWithQuerydslIndex(String name) {
+        LocalDateTime start = LocalDateTime.now();
+        userRepository.findByNicknameWithQueryDslIndex(name);
+        LocalDateTime end = LocalDateTime.now();
+
+        Duration result = Duration.between(start, end);
+        log.info(result.toString());
     }
 }
